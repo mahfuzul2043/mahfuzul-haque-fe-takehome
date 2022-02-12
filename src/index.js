@@ -3,11 +3,30 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@emotion/react';
+import { CssBaseline } from '@mui/material';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+const theme = createTheme({
+  palette: {
+    mode: 'dark'
+  }
+})
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Router>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </ThemeProvider>
+    </Provider>
+  </Router>,
   document.getElementById('root')
 );
 
