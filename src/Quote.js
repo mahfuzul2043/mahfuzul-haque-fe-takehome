@@ -27,6 +27,8 @@ export default function Quote() {
 
     useEffect(() => {
         submitForm();
+
+        // eslint-disable-next-line
     }, [])
 
     return (
