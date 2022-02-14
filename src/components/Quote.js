@@ -2,8 +2,15 @@ import { Button, ButtonGroup, CircularProgress, Divider, Grid, Link, Typography 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { industries, setForm, initialFormState } from "./redux/slices/formSlice";
-import { setQuote } from "./redux/slices/quoteSlice";
+import { industries, setForm, initialFormState } from "../redux/slices/formSlice";
+import { setQuote } from "../redux/slices/quoteSlice";
+
+const renderCell = (header, data) => (
+    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+        <Typography style={{ fontWeight: 'bold' }}>{header}</Typography>
+        <Typography>{data}</Typography>
+    </div>
+)
 
 export default function Quote() {
     const [loading, setLoading] = useState(false);
@@ -39,47 +46,23 @@ export default function Quote() {
             </Grid>
             {(!quote || loading) ? (
                 <Grid item xs={12} display='flex' justifyContent='center'>
-                    <CircularProgress size={30} />
+                    <CircularProgress data-testid='circular-progress' size={30} />
                 </Grid>
             ) : (
                 <>
                     <Grid item xs={12}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                            <Typography style={{ fontWeight: 'bold' }}>Business Name:</Typography>
-                            <Typography>{quote.application.businessName}</Typography>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                            <Typography style={{ fontWeight: 'bold' }}>Number of Employees:</Typography>
-                            <Typography>{quote.application.numEmployees}</Typography>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                            <Typography style={{ fontWeight: 'bold' }}>Industry:</Typography>
-                            <Typography>{industries.find(industry => industry.id === quote.application.industryId).label}</Typography>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                            <Typography style={{ fontWeight: 'bold' }}>Annual Payroll:</Typography>
-                            <Typography>{quote.application.annualPayroll.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</Typography>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                            <Typography style={{ fontWeight: 'bold' }}>Gross Annual Sales:</Typography>
-                            <Typography>{quote.application.grossAnnualSales.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</Typography>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                            <Typography style={{ fontWeight: 'bold' }}>Contact Email:</Typography>
-                            <Typography>{quote.application.contactEmail}</Typography>
-                        </div>
+                        {renderCell('Business Name:', quote.application.businessName)}
+                        {renderCell('Number of Employees:', quote.application.numEmployees)}
+                        {renderCell('Industry:', industries.find(industry => industry.id === quote.application.industryId).label)}
+                        {renderCell('Annual Payroll:', quote.application.annualPayroll.toLocaleString('en-US', { style: 'currency', currency: 'USD' }))}
+                        {renderCell('Gross Annual Sales:', quote.application.grossAnnualSales.toLocaleString('en-US', { style: 'currency', currency: 'USD' }))}
+                        {renderCell('Contact Email:', quote.application.contactEmail)}
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
                             <Typography style={{ fontWeight: 'bold' }}>Application URL:</Typography>
                             <Link href={quote.application.applicationUrl} target='_blank' rel='noreferrer'>Click Here</Link>
                         </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                            <Typography style={{ fontWeight: 'bold' }}>Zip Code:</Typography>
-                            <Typography>{quote.application.locations[0].zip}</Typography>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
-                            <Typography style={{ fontWeight: 'bold' }}>Available Policy Types:</Typography>
-                            <Typography>{quote.availablePolicyTypes?.join(', ') ?? 'Error'}</Typography>
-                        </div>
+                        {renderCell('Zip Code:', quote.application.locations[0].zip)}
+                        {renderCell('Available Policy Types:', quote.availablePolicyTypes?.join(', ') ?? 'Error')}
                         {quote.errors && (
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <Typography style={{ fontWeight: 'bold' }}>Errors:</Typography>

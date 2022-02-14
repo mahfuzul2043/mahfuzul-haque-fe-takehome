@@ -2,7 +2,7 @@ import { Alert, Button, ButtonGroup, Divider, FormControl, Grid, InputLabel, Men
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { annualValues, setAnnualPayroll, setGrossAnnualSales, setLocation, setNumEmployees } from "./redux/slices/formSlice";
+import { annualValues, setAnnualPayroll, setGrossAnnualSales, setLocation, setNumEmployees } from "../redux/slices/formSlice";
 
 export default function FinanceDetailsStep() {
     const form = useSelector(state => state.form);
@@ -27,7 +27,7 @@ export default function FinanceDetailsStep() {
     }
 
     return (
-        <>
+        <div data-testid='finance-details-component'>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Typography variant='h5'>Finance Details</Typography>
@@ -36,7 +36,7 @@ export default function FinanceDetailsStep() {
                 <Grid item xs={12} sm={6}>
                     <FormControl style={{ width: '100%' }}>
                         <InputLabel id='sales-label'>Annual Sales</InputLabel>
-                        <Select value={form.grossAnnualSales} labelId='sales-label' label='Annual Sales' onChange={e => dispatch(setGrossAnnualSales(e.target.value))}>
+                        <Select data-testid='sales-input' value={form.grossAnnualSales} labelId='sales-label' label='Annual Sales' onChange={e => dispatch(setGrossAnnualSales(e.target.value))}>
                             {annualValues.map(value => (
                                 <MenuItem key={`sales-${value}`} value={value}>
                                     {value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
@@ -48,7 +48,7 @@ export default function FinanceDetailsStep() {
                 <Grid item xs={12} sm={6}>
                     <FormControl style={{ width: '100%' }}>
                         <InputLabel id='payroll-label'>Annual Payroll</InputLabel>
-                        <Select value={form.annualPayroll} labelId='payroll-label' label='Annual Payroll' onChange={e => dispatch(setAnnualPayroll(e.target.value))}>
+                        <Select data-testid='payroll-input' value={form.annualPayroll} labelId='payroll-label' label='Annual Payroll' onChange={e => dispatch(setAnnualPayroll(e.target.value))}>
                             {annualValues.map(value => (
                                 <MenuItem key={`payroll-${value}`} value={value}>
                                     {value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
@@ -58,10 +58,10 @@ export default function FinanceDetailsStep() {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <TextField type='number' defaultValue={form.numEmployees} onBlur={e => dispatch(setNumEmployees(parseInt(e.target.value)))} label='Number of Employees' style={{ width: '100%' }} />
+                    <TextField data-testid='employees-input' type='number' defaultValue={form.numEmployees} onBlur={e => dispatch(setNumEmployees(parseInt(e.target.value)))} label='Number of Employees' style={{ width: '100%' }} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <TextField defaultValue={form.locations[0].zip} onBlur={e => dispatch(setLocation(e.target.value))} label='Zip Code' style={{ width: '100%' }} />
+                    <TextField data-testid='zip-input' defaultValue={form.locations[0].zip} onBlur={e => dispatch(setLocation(e.target.value))} label='Zip Code' style={{ width: '100%' }} />
                 </Grid>
                 <Grid item xs={12} display='flex' justifyContent='center'>
                     <ButtonGroup variant='outlined'>
@@ -73,6 +73,6 @@ export default function FinanceDetailsStep() {
             <Snackbar open={errors.length > 0} autoHideDuration={5000} onClose={closeErrors} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
                 <Alert onClose={closeErrors} severity='error'>{errors.join('. ')}</Alert>
             </Snackbar>
-        </>
+        </div>
     )
 }

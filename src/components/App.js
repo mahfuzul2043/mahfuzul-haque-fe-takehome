@@ -12,11 +12,11 @@ function App() {
 
   return (
     <div>
-      <header>
+      <header data-testid='header'>
         <Header />
       </header>
       <br />
-      <main style={{ display: 'flex', justifyContent: 'center', maxWidth: '50rem', margin: 'auto' }}>
+      <main data-testid='main' style={{ display: 'flex', justifyContent: 'center', maxWidth: '50rem', margin: 'auto' }}>
         <Paper style={{ width: '100%', padding: 20 }}>
           <Routes>
             <Route path='business-info' element={<BusinessInformationStep />} />
@@ -29,7 +29,6 @@ function App() {
             <Route path='*' element={<Navigate replace to='/business-info' />} />
           </Routes>
         </Paper>
-        {/* <Form /> */}
       </main>
     </div>
   );
